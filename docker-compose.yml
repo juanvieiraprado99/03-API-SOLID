@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: bitnami/postgresql:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRESQL_USERNAME: johndoe
+      POSTGRESQL_PASSWORD: randompassword
+      POSTGRESQL_DATABASE: mydb
+    volumes:
+      - pg_data:/bitnami/postgresql
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 256M
+
+volumes:
+  pg_data:
