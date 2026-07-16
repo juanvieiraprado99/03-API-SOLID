@@ -6,7 +6,12 @@
   "scripts": {
     "start:dev": "tsx watch src/server.ts",
     "start": "node build/server.js",
-    "build": "tsup src --out-dir build --format esm"
+    "build": "tsup src --out-dir build --format esm",
+    "studio": "prisma studio",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui"
   },
   "keywords": [],
   "author": "",
@@ -23,15 +28,20 @@
     "@rocketseat/eslint-config": "^2.2.2",
     "@types/node": "^26.0.1",
     "@types/pg": "^8.20.0",
+    "@vitest/coverage-v8": "4.1.10",
+    "@vitest/ui": "^4.1.10",
     "eslint": "^10.6.0",
     "prisma": "^7.8.0",
     "tsup": "^8.5.1",
     "tsx": "^4.22.4",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.10"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
+    "argon2": "^0.44.0",
+    "dayjs": "^1.11.21",
     "dotenv": "^17.4.2",
     "fastify": "^5.9.0",
     "pg": "^8.22.0",
