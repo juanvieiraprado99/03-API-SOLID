@@ -1,11 +1,33 @@
+import { getDistanceBetweenCoordinates } from "@/utils/get-distance-between-coordinates.js";
 import { Decimal } from "@prisma/client/runtime/client";
 import { randomUUID } from "node:crypto";
 import { Gym } from "../../../generated/prisma/client.js";
 import { GymCreateManyInput } from "../../../generated/prisma/models.js";
-import { GymsRepository } from "../gyms-repository.js";
+import { FindManyNearbyParams, GymsRepository } from "../gyms-repository.js";
 
 export class InMemoryGymsRepository implements GymsRepository {
   public items: Gym[] = [];
+
+  async findManyNearby(params: FindManyNearbyParams): Promise<Gym[]> {
+    return this.items.filter((gym) => {
+      const distance = getDistanceBetweenCoordinates(
+        { latitude: params.userLatitude, longitude: params.userLongitude },
+        {
+          latitude: gym.latitude.toNumber(),
+          longitude: gym.longitude.toNumber(),
+        },
+      );
+      const isWithin10km = distance <= 10;
+
+      return isWithin10km;
+    });
+  }
+
+  async searchMany(query: string, page: number): Promise<Gym[]> {
+    return this.items
+      .filter((gym) => gym.title.includes(query))
+      .slice((page - 1) * 20, page * 20);
+  }
 
   async create(data: GymCreateManyInput): Promise<Gym> {
     const gym: Gym = {
